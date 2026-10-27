@@ -27,7 +27,7 @@ A brokerage wants to know four things:
 
 ## About the Data
 
-The data is a **sample dataset I generated** to behave like a real CRM export: 6,120 lead records across 10 Indian cities, 4 property types, and 25 agents, covering January 2025 to September 2026. I deliberately left in the kind of mess real exports have, such as duplicate rows, inconsistent city spellings, impossible areas, missing prices, and mixed-case status labels. Cleaning those is most of the work, and the cleaning script logs every change.
+The data is a **sample dataset** built to behave like a real CRM export: 6,120 lead records across 10 Indian cities, 4 property types, and 25 agents, covering January 2025 to September 2026. It includes the kind of mess real exports have, such as duplicate rows, inconsistent city spellings, impossible areas, missing prices, and mixed-case status labels. The cleaning script logs every change it makes.
 
 Because the data is synthetic, the numbers show the method and how to read it. They are not market findings.
 
@@ -45,21 +45,17 @@ real-estate-sales-analytics-dashboard/
 │   └── validation_report.txt      log of every cleaning step
 ├── python/
 │   ├── clean_data.py              cleaning, validation, derived columns
-│   ├── validate_sql.py            runs the schema and all queries to check them
-│   └── generate_sample_data.py    recreates the sample dataset
+│   └── validate_sql.py            runs the schema and all queries to check them
 ├── sql/
 │   ├── schema.sql                 tables, indexes and a monthly KPI view
 │   └── business_queries.sql       11 business questions
 ├── powerbi/
-│   ├── RealEstate_Dashboard.pbix  the dashboard
 │   ├── DAX_measures.dax           all measures
 │   └── BUILD_GUIDE.md             how the dashboard is laid out
 ├── excel/
-│   ├── Real_Estate_Analysis.xlsx  summary workbook with live formulas
-│   └── build_excel_summary.py     rebuilds the workbook
-├── docs/
-│   └── BEGINNER_GUIDE.md          step-by-step setup guide
+│   └── Real_Estate_Analysis.xlsx  summary workbook with live formulas
 ├── images/                        dashboard screenshots
+├── RealEstate_Dashboard.pbix      the Power BI dashboard
 ├── requirements.txt
 └── README.md
 ```
@@ -74,10 +70,9 @@ You need Python 3.10 or newer. Then, from the project folder:
 pip install -r requirements.txt
 python python/clean_data.py
 python python/validate_sql.py
-python excel/build_excel_summary.py
 ```
 
-The first command produces the cleaned data. The second runs every SQL query against a small test database, so you can see they work without installing PostgreSQL. The third rebuilds the Excel workbook.
+The first command produces the cleaned data. The second runs every SQL query against a small test database, so you can check they work without installing PostgreSQL.
 
 To load the data into PostgreSQL:
 
@@ -87,7 +82,7 @@ psql -d real_estate -c "\copy agents FROM 'data/cleaned_agents.csv' WITH (FORMAT
 psql -d real_estate -c "\copy leads FROM 'data/cleaned_leads.csv' WITH (FORMAT csv, HEADER true)"
 ```
 
-Open `powerbi/RealEstate_Dashboard.pbix` in Power BI Desktop, or follow `powerbi/BUILD_GUIDE.md` to build it yourself. `docs/BEGINNER_GUIDE.md` covers setup from scratch.
+Open `RealEstate_Dashboard.pbix` in Power BI Desktop to explore the dashboard. To build it yourself, follow `powerbi/BUILD_GUIDE.md`.
 
 ---
 
